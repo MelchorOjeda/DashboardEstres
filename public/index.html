@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Bienestar Digital</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Chart.js para gráficas -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <div class="glass-container">
+        <header>
+            <h1>Análisis de Bienestar Digital</h1>
+            <p>Impacto de redes sociales y hábitos en la salud mental</p>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-btn active" onclick="switchTab('charts-tab', event)">📊 Gráficas</button>
+            <button class="tab-btn" onclick="switchTab('table-tab', event)">📋 Datos en Tabla</button>
+        </nav>
+
+        <main>
+            <!-- Tab: Gráficas -->
+            <section id="charts-tab" class="tab-content active">
+                <div class="charts-grid">
+                    <div class="chart-card glass-panel">
+                        <h2>Horas de Sueño vs Nivel de Estrés</h2>
+                        <div class="chart-wrapper">
+                            <canvas id="sleepStressChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card glass-panel">
+                        <h2>Uso Diario de Redes vs Actividad Física</h2>
+                        <div class="chart-wrapper">
+                            <canvas id="socialPhysicalChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card glass-panel" style="grid-column: 1 / -1;">
+                        <h2>Edad vs Horas Diarias de Redes Sociales</h2>
+                        <div class="chart-wrapper">
+                            <canvas id="ageSocialChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab: Tabla de Datos -->
+            <section id="table-tab" class="tab-content">
+                <div class="table-container glass-panel">
+                    <table id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>Edad</th>
+                                <th>Género</th>
+                                <th>Horas Redes Sociales</th>
+                                <th>Plataforma</th>
+                                <th>Horas Sueño</th>
+                                <th>Pantalla pre-Sueño</th>
+                                <th>Desempeño Académico</th>
+                                <th>Actividad Física</th>
+                                <th>Interacción Social</th>
+                                <th>Nivel de Estrés</th>
+                                <th>Nivel Ansiedad</th>
+                                <th>Nivel Adicción</th>
+                                <th>Depresión</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- Los datos se inyectarán aquí dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

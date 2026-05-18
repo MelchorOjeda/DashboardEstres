@@ -1,0 +1,17 @@
+# Dependencias de Node
+node_modules/
+
+# Variables de entorno (¡Muy importante para la seguridad!)
+.env
+
+# Archivos compilados de TypeScript
+dist/
+
+# Archivos de registro de npm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
