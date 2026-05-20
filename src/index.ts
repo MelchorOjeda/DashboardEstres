@@ -20,21 +20,62 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 // Endpoint que consulta los datos reales
 app.get('/api/data', async (req, res) => {
   try {
-    // Consulta a la tabla Salud_Mental que me indicaste
-    const { data, error } = await supabase
-      .from('Salud_Mental')
-      .select('*');
+    let allData: any[] = [];
+    let from = 0;
+    let to = 999;
+    let hasMore = true;
 
-    if (error) {
-      console.error('Error consultando Supabase:', error);
-      return res.status(500).json({ error: error.message });
+    // Bucle para traer de 1,000 en 1,000 todos los registros de la base de datos
+    while (hasMore) {
+      const { data, error } = await supabase
+        .from('Salud_Mental')
+        .select('*')
+        .range(from, to);
+
+      if (error) {
+        console.error('Error consultando Supabase:', error);
+        return res.status(500).json({ error: error.message });
+      }
+
+      if (data && data.length > 0) {
+        allData = allData.concat(data);
+        
+        // Si el lote devuelto es menor a 1,000, significa que ya trajimos el último bloque
+        if (data.length < 1000) {
+          hasMore = false;
+        } else {
+          from += 1000;
+          to += 1000;
+        }
+      } else {
+        hasMore = false;
+      }
     }
 
-    // Retorna los datos reales al frontend
-    res.json(data);
+    console.log(`Consulta exitosa: Enviando ${allData.length} registros al frontend`);
+    res.json(allData);
   } catch (err) {
     console.error('Error del servidor:', err);
     res.status(500).json({ error: 'Error interno del servidor' });
+  }
+});
+
+// Endpoint de diagnóstico temporal
+app.get('/api/debug', async (req, res) => {
+  try {
+    const { count, error } = await supabase
+      .from('Salud_Mental')
+      .select('*', { count: 'exact', head: true });
+    
+    res.json({
+      url: supabaseUrl,
+      keyLength: supabaseKey.length,
+      keyPrefix: supabaseKey.substring(0, 15) + '...',
+      count,
+      error
+    });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
   }
 });
 

@@ -49,34 +49,61 @@
                             <canvas id="ageSocialChart"></canvas>
                         </div>
                     </div>
+                    <div class="chart-card glass-panel">
+                        <h2>Uso de Plataformas - Hombres</h2>
+                        <div class="chart-wrapper">
+                            <canvas id="platformMaleChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card glass-panel">
+                        <h2>Uso de Plataformas - Mujeres</h2>
+                        <div class="chart-wrapper">
+                            <canvas id="platformFemaleChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card glass-panel" style="grid-column: 1 / -1;">
+                        <h2>Horas en Redes Sociales vs Desempeño Académico Promedio</h2>
+                        <div class="chart-wrapper">
+                            <canvas id="socialAcademicChart"></canvas>
+                        </div>
+                    </div>
                 </div>
             </section>
 
             <!-- Tab: Tabla de Datos -->
             <section id="table-tab" class="tab-content">
+                <div class="table-info-bar">
+                    <span id="totalRecords" class="total-badge">Total de registros: 0</span>
+                </div>
+
+                <!-- Filtro de Columnas Selector -->
+                <div class="column-filter-box glass-panel">
+                    <div class="filter-header">
+                        <h3>👁️ Mostrar / Ocultar Columnas</h3>
+                        <div class="filter-actions">
+                            <button class="tab-btn filter-action-btn" onclick="toggleAllColumns(true)">Mostrar Todas</button>
+                            <button class="tab-btn filter-action-btn" onclick="toggleAllColumns(false)">Ocultar Todas</button>
+                        </div>
+                    </div>
+                    <div class="column-pills" id="columnPillsContainer">
+                        <!-- Se generará dinámicamente desde JavaScript -->
+                    </div>
+                </div>
+
                 <div class="table-container glass-panel">
                     <table id="dataTable">
-                        <thead>
-                            <tr>
-                                <th>Edad</th>
-                                <th>Género</th>
-                                <th>Horas Redes Sociales</th>
-                                <th>Plataforma</th>
-                                <th>Horas Sueño</th>
-                                <th>Pantalla pre-Sueño</th>
-                                <th>Desempeño Académico</th>
-                                <th>Actividad Física</th>
-                                <th>Interacción Social</th>
-                                <th>Nivel de Estrés</th>
-                                <th>Nivel Ansiedad</th>
-                                <th>Nivel Adicción</th>
-                                <th>Depresión</th>
-                            </tr>
+                        <thead id="tableHead">
+                            <!-- Se generará dinámicamente -->
                         </thead>
                         <tbody id="tableBody">
                             <!-- Los datos se inyectarán aquí dinámicamente -->
                         </tbody>
                     </table>
+                </div>
+                <div class="pagination-controls">
+                    <button id="prevBtn" class="tab-btn pagination-btn" onclick="prevPage()">◀ Anterior</button>
+                    <span id="pageInfo" class="page-indicator">Página 1 de 1</span>
+                    <button id="nextBtn" class="tab-btn pagination-btn" onclick="nextPage()">Siguiente ▶</button>
                 </div>
             </section>
         </main>
