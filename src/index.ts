@@ -15,11 +15,23 @@ app.use(express.static(path.join(__dirname, '../public')));
 // Configuración de Supabase con tus credenciales desde .env
 const supabaseUrl = process.env.SUPABASE_URL || '';
 const supabaseKey = process.env.SUPABASE_KEY || '';
-const supabase = createClient(supabaseUrl, supabaseKey);
+
+let supabase: any;
+if (supabaseUrl && supabaseKey) {
+  supabase = createClient(supabaseUrl, supabaseKey);
+} else {
+  console.warn('ADVERTENCIA: SUPABASE_URL o SUPABASE_KEY no configuradas en las variables de entorno.');
+}
 
 // Endpoint que consulta los datos reales
 app.get('/api/data', async (req, res) => {
   try {
+    if (!supabase) {
+      console.error('Intento de consulta a Supabase sin credenciales configuradas.');
+      return res.status(500).json({ 
+        error: 'Supabase no está configurado. Asegúrate de configurar las variables de entorno SUPABASE_URL y SUPABASE_KEY en Vercel.' 
+      });
+    }
     let allData: any[] = [];
     let from = 0;
     let to = 999;
@@ -63,6 +75,11 @@ app.get('/api/data', async (req, res) => {
 // Endpoint de diagnóstico temporal
 app.get('/api/debug', async (req, res) => {
   try {
+    if (!supabase) {
+      return res.status(500).json({ 
+        error: 'Supabase no está configurado en las variables de entorno.' 
+      });
+    }
     const { count, error } = await supabase
       .from('Salud_Mental')
       .select('*', { count: 'exact', head: true });
@@ -79,8 +96,12 @@ app.get('/api/debug', async (req, res) => {
   }
 });
 
-const PORT = 3000;
+// Solo iniciar el servidor local si no estamos en Vercel
+if (!process.env.VERCEL) {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  });
+}
 
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
+export default app;
